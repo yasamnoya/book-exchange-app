@@ -4,14 +4,19 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "dev": "env-cmd -f ./envs/dev.env nodemon src/index.js",
+    "test": "env-cmd -f ./envs/test.env jest --watch --detectOpenHandles",
+    "coverage": "env-cmd -f ./envs/test.env jest --coverage"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^10.0.0",
+    "env-cmd": "^10.1.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.12",
@@ -21,6 +26,8 @@
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "nodemon": "^2.0.15"
+    "jest": "^27.3.1",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.1.6"
   }
 }

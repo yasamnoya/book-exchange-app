@@ -1,13 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
-const router = require('./routes');
 
 const app = express();
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(morgan('common'));
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('common'));
+}
 
+const router = require('./routes');
 app.use(router);
 
 module.exports = app;
