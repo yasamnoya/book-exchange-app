@@ -2,11 +2,10 @@ const router = require('express').Router();
 const passport = require('passport');
 const { User } = require('../models');
 
-router.get('/login', passport.authenticate('github'), async (req, res) => {
-  res.send(req.user);
-});
+router.get('/login', passport.authenticate('github'));
 
 router.get('/callback', passport.authenticate('github'), (req, res) => {
+  req.session.save();
   res.send(req.user);
 });
 
