@@ -11,6 +11,11 @@ const bookSchema = new mongoose.Schema({
     default: '',
     trim: true,
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Book',
+    required: true,
+  },
 });
 
 const Book = mongoose.model('Book', bookSchema);
