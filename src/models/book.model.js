@@ -13,7 +13,7 @@ const bookSchema = new mongoose.Schema({
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Book',
+    ref: 'User',
     required: true,
   },
   requests: [

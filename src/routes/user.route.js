@@ -32,6 +32,19 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
+router.get('/:userId/books', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) return res.status(404).send('User not found');
+
+    await user.populate('books');
+    res.send(user.books);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send();
+  }
+});
+
 router.patch('/:userId', hasLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
