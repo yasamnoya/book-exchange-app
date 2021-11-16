@@ -58,11 +58,12 @@ router.patch('/:bookId', hasLoggedIn, async (req, res) => {
 
 router.delete('/:bookId', hasLoggedIn, async (req, res) => {
   try {
-    const book = await Book.findByIdAndDelete(req.params.bookId);
+    const book = await Book.findById(req.params.bookId);
     if (!book) return res.status(404).send();
 
     if (book.owner.toString() != req.user._id.toString()) return res.status(403).send();
 
+    await book.remove();
     res.send(book);
   } catch (e) {
     console.log(e);

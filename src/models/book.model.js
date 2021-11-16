@@ -16,6 +16,12 @@ const bookSchema = new mongoose.Schema({
     ref: 'Book',
     required: true,
   },
+  requests: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Request',
+    },
+  ],
 });
 
 const Book = mongoose.model('Book', bookSchema);

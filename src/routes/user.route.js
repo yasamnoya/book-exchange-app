@@ -51,10 +51,11 @@ router.patch('/:userId', hasLoggedIn, async (req, res) => {
 
 router.delete('/:userId', hasLoggedIn, async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.userId);
+    const user = await User.findById(req.params.userId);
     if (!user) return res.status(404).send();
 
     if (user._id.toString() != req.user._id.toString()) return res.status(403).send();
+    await user.remove();
 
     res.send(user);
   } catch (e) {

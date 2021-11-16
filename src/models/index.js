@@ -1,7 +1,5 @@
-const Book = require('./book.model');
-const User = require('./user.model');
-
 module.exports = {
-  Book,
-  User,
+  Book: require('./book.model'),
+  User: require('./user.model'),
+  Request: require('./request.model'),
 };
