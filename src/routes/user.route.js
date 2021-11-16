@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const passport = require('passport');
 const { User } = require('../models');
+const { hasLoggedIn } = require('../middlewares/auth');
 
 router.get('/login', passport.authenticate('github'));
 
@@ -31,10 +32,12 @@ router.get('/:userId', async (req, res) => {
   }
 });
 
-router.patch('/:userId', async (req, res) => {
+router.patch('/:userId', hasLoggedIn, async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     if (!user) return res.status(404).send('User not found');
+
+    if (user._id.toString() != req.user._id.toString()) return res.status(403).send();
 
     const updates = Object.keys(req.body);
     updates.forEach((update) => (user[update] = req.body[update]));
@@ -46,10 +49,12 @@ router.patch('/:userId', async (req, res) => {
   }
 });
 
-router.delete('/:userId', async (req, res) => {
+router.delete('/:userId', hasLoggedIn, async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.userId);
     if (!user) return res.status(404).send();
+
+    if (user._id.toString() != req.user._id.toString()) return res.status(403).send();
 
     res.send(user);
   } catch (e) {
