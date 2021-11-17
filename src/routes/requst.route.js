@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Request, Book } = require('../models');
+const { Request, Book, Trade } = require('../models');
 const { hasLoggedIn } = require('../middlewares/auth');
 
 router.post('/', hasLoggedIn, async (req, res) => {
@@ -89,6 +89,54 @@ router.patch('/:requestId', hasLoggedIn, async (req, res) => {
 
     await request.save();
     res.send(request);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send();
+  }
+});
+
+router.patch('/:requestId/accept', async (req, res) => {
+  try {
+    const request = await Request.findById(req.params.requestId);
+    if (!request) res.status(404).send('Request not found');
+
+    if (!request.requestees.includes(req.user._id.toString())) return res.status(403).send();
+
+    // create trade
+    const trade = new Trade({
+      getOne: {
+        user: req.user._id,
+        books: [req.body.toGive],
+      },
+      getTwo: {
+        user: request.requestor._id,
+        books: [req.body.toTake],
+      },
+    });
+    await trade.save();
+
+    // update books
+    await Book.updateMany(
+      { $in: { _id: [...req.body.toTake, ...req.body.toGive] } },
+      { available: false }
+    );
+
+    // update request
+    request.toTake = request.toTake.filter((book) => !req.body.toTake.includes(book.toString()));
+    request.toGive = request.toGive.filter((book) => !req.body.toGive.includes(book.toString()));
+
+    if (request.toTake.length == 0 || request.toGive.length == 0) {
+      await request.remove();
+    } else {
+      request.save();
+    }
+
+    await Book.updateMany(
+      { $in: { _id: req.body.toTake } },
+      { $pull: { requests: req.params.requestId } }
+    );
+
+    res.send(trade);
   } catch (e) {
     console.log(e);
     res.status(500).send();

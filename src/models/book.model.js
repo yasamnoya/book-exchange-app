@@ -16,6 +16,10 @@ const bookSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+  available: {
+    type: Boolean,
+    default: true,
+  },
   requests: [
     {
       type: mongoose.Schema.Types.ObjectId,
