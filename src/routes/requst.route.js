@@ -143,6 +143,39 @@ router.patch('/:requestId/accept', async (req, res) => {
   }
 });
 
+router.patch('/:requestId/reject', async (req, res) => {
+  try {
+    const request = await Request.findById(req.params.requestId);
+    if (!request) res.status(404).send('Request not found');
+
+    if (!request.requestees.includes(req.user._id.toString())) return res.status(403).send();
+
+    await request.populate('toTake');
+
+    // update request
+    request.toTake = request.toTake.filter(
+      (book) => book.owner._id.toString() !== req.user._id.toString()
+    );
+
+    if (request.toTake.length == 0) {
+      await request.remove();
+    } else {
+      request.save();
+    }
+
+    // update books
+    await Book.updateMany(
+      { owner: req.user._id, $in: { requests: req.params.reqeustId } },
+      { $pull: { requests: req.params.requestId } }
+    );
+
+    res.send();
+  } catch (e) {
+    console.log(e);
+    res.status(500).send();
+  }
+});
+
 router.delete('/:requestId', hasLoggedIn, async (req, res) => {
   try {
     const request = await Request.findById(req.params.requestId);
