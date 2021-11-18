@@ -1,9 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const passport = require('./config/passport');
 const session = require('./config/session');
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
