@@ -30,6 +30,13 @@ router.get('/', async (req, res) => {
         await request.populate(['toGive', 'toTake', 'requestor']);
       })
     );
+
+    await Promise.all(requests.map(async (request) => {
+      await Promise.all(request.toTake.map(async (book) => {
+        await book.populate('owner');
+      }));
+    }));
+
     res.send(requests);
   } catch (e) {
     console.log(e);
