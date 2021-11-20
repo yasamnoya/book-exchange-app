@@ -14,6 +14,11 @@ router.get('/callback', passport.authenticate('github'), (req, res) => {
   res.redirect(`${req.headers.referer}books`);
 });
 
+router.get('/logout', hasLoggedIn, (req, res) => {
+  req.logout();
+  res.send();
+})
+
 router.get('/', async (req, res) => {
   try {
     const users = await User.find({});
