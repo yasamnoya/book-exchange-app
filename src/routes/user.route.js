@@ -5,9 +5,13 @@ const { hasLoggedIn } = require('../middlewares/auth');
 
 router.get('/login', passport.authenticate('github'));
 
+router.get('/login/success', hasLoggedIn, (req, res) => {
+  res.send(req.user);
+});
+
 router.get('/callback', passport.authenticate('github'), (req, res) => {
   req.session.save();
-  res.send(req.user);
+  res.redirect(`${req.headers.referer}books`);
 });
 
 router.get('/', async (req, res) => {
