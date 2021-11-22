@@ -47,7 +47,10 @@ router.get('/:userId/books', async (req, res) => {
     if (!user) return res.status(404).send('User not found');
 
     await user.populate('books');
-    res.send(user.books);
+    const books = user.books;
+    await Promise.all(books.map(async (book) => await book.populate('owner')))
+
+    res.send(books);
   } catch (e) {
     console.log(e);
     res.status(500).send();
