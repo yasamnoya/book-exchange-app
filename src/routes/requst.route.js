@@ -66,6 +66,8 @@ router.get('/:requestId', async (req, res) => {
     if (!request) res.status(404).send('Request not found');
 
     await request.populate(['toGive', 'toTake', 'requestor']);
+    await Promise.all(request.toTake.map(async (book) => await book.populate('owner')));
+    await Promise.all(request.toGive.map(async (book) => await book.populate('owner')));
 
     res.send(request);
   } catch (e) {
