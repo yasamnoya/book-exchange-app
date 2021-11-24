@@ -33,6 +33,13 @@ router.get('/:bookId', async (req, res) => {
     const book = await Book.findById(req.params.bookId);
     if (!book) return res.status(404).send('Book not found');
 
+    await book.populate(['requests', 'owner']);
+    await Promise.all(
+      book.requests.map(async (request) => {
+        await request.populate(['toGive', 'toTake', 'requestor']);
+      })
+    );
+
     res.send(book);
   } catch (e) {
     console.log(e);
