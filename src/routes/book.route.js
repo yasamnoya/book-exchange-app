@@ -19,7 +19,7 @@ router.post('/', hasLoggedIn, async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    const books = await Book.find({});
+    const books = await Book.find({available: true});
     await Promise.all(books.map(async (book) => await book.populate(['requests', 'owner'])));
     res.send(books);
   } catch (e) {
