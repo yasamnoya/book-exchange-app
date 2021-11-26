@@ -124,9 +124,11 @@ router.patch('/:requestId/accept', async (req, res) => {
     });
     await trade.save();
 
+    console.log([...req.body.toTake, ...req.body.toGive]);
+
     // update books
     await Book.updateMany(
-      { $in: { _id: [...req.body.toTake, ...req.body.toGive] } },
+      { _id: { $in: [...req.body.toTake, ...req.body.toGive] } },
       { available: false }
     );
 
@@ -141,7 +143,7 @@ router.patch('/:requestId/accept', async (req, res) => {
     }
 
     await Book.updateMany(
-      { $in: { _id: req.body.toTake } },
+      { _id: { $in: req.body.toTake } },
       { $pull: { requests: req.params.requestId } }
     );
 
