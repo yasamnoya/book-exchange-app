@@ -11,7 +11,7 @@ router.get('/login/success', hasLoggedIn, (req, res) => {
 
 router.get('/callback', passport.authenticate('github'), (req, res) => {
   req.session.save();
-  res.redirect(`${req.headers.referer}books`);
+  res.redirect(`${process.env.FRONTEND_URL}/books`);
 });
 
 router.get('/logout', hasLoggedIn, (req, res) => {
