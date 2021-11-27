@@ -9,14 +9,6 @@
   <a href="https://app.jnyiunn.com/book-exchange/"><img src="https://img.shields.io/badge/Deployed%20On-AWS-yellow"></a>
 </p>
 
-<p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#download">Download</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
-  <a href="#license">License</a>
-</p>
 
 ![screenshot](https://github.com/yasamnoya/book-exchange-app/blob/readme/Book_Exchange_screenshot.png?raw=true)
 
@@ -35,7 +27,7 @@
 
 # Setup
 
-1. Clone this repository
+1. Clone this repository.
 2. Create .env files, `.envs/prod.env` for production and `.envs/dev.env` for development. Sample as below:
 ```
 PORT=3000
@@ -46,6 +38,7 @@ SESSION_SECRET=secret
 FRONTEND_URL=http://localhost:8080
 BACKEND_URL=http://localhost:3000
 ```
-3. Start the server
+3. Start the server:
   - For development: `npm run dev`
   - For production: `npm run start`
+4. See [this repo](https://github.com/yasamnoya/book-exchange-app-client) for the frontend of this application.
