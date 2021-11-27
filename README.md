@@ -42,3 +42,7 @@ BACKEND_URL=http://localhost:3000
   - For development: `npm run dev`
   - For production: `npm run start`
 4. See [this repo](https://github.com/yasamnoya/book-exchange-app-client) for the frontend of this application.
+
+# License
+
+MIT
