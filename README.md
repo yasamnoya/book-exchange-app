@@ -1,12 +1,12 @@
 <h1 align="center">
   <br>
-  <a href="https://app.jnyiunn.com/book-exchange/"><img src="https://github.com/yasamnoya/book-exchange-app/blob/readme/Book_Exchange.png?raw=trueg" alt="Book exchange" width="600"></a>
+  <a href="https://book-exchange.app.jnyiunn.com/"><img src="https://github.com/yasamnoya/book-exchange-app/blob/readme/Book_Exchange.png?raw=trueg" alt="Book exchange" width="600"></a>
 </h1>
 
 <h4 align="center">📚 Turn the old book into useful ones.</h4>
 
 <p align="center">
-  <a href="https://app.jnyiunn.com/book-exchange/"><img src="https://img.shields.io/badge/Deployed%20On-AWS-yellow"></a>
+  <a href="https://book-exchange.app.jnyiunn.com/"><img src="https://img.shields.io/badge/Deployed%20On-AWS-yellow"></a>
 </p>
 
 
